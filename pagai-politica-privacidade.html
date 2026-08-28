@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pagaí — Política de Privacidade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,ital@9..144,400..700,0..1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#122019;
+    --muted:#5c6b62;
+    --paper:#eef2ee;
+    --paper-alt:#e2e9e2;
+    --surface:#ffffff;
+    --teal:#0e8f73;
+    --teal-deep:#0a6e58;
+    --teal-tint:#e2f3ee;
+    --gold:#c99a3d;
+    --gold-tint:#faf1de;
+    --coral:#c1544a;
+    --line:#d2dbd2;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(18,32,25,0.05) 1px, transparent 0);
+    background-size:22px 22px;
+    color:var(--ink);
+    font-family:"IBM Plex Sans", sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:"IBM Plex Mono", monospace;}
+  .display{font-family:"Fraunces", serif;}
+
+  /* ---------- App bar ---------- */
+  .appbar{
+    position:sticky; top:0; z-index:30;
+    display:flex; align-items:center; gap:12px;
+    padding:14px 20px;
+    background:rgba(238,242,238,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .avatar{
+    width:42px; height:42px; border-radius:12px;
+    background:linear-gradient(155deg, var(--teal), var(--teal-deep));
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    box-shadow:0 4px 10px rgba(14,143,115,0.28);
+  }
+  .avatar svg{width:22px;height:22px;}
+  .app-info{line-height:1.25;}
+  .app-info .name{font-family:"Fraunces", serif; font-weight:600; font-size:1.05rem;}
+  .app-info .status{font-size:0.76rem; color:var(--muted); display:flex; align-items:center; gap:6px;}
+  .app-info .status .dot{width:6px;height:6px;border-radius:50%;background:var(--teal); display:inline-block; box-shadow:0 0 0 3px var(--teal-tint);}
+  .appbar .updated{
+    margin-left:auto; text-align:right; font-size:0.72rem; color:var(--muted);
+  }
+  .appbar .updated strong{display:block; color:var(--ink); font-size:0.78rem; font-weight:500;}
+
+  /* ---------- Jump chips ---------- */
+  .chipnav{
+    position:sticky; top:70px; z-index:29;
+    display:flex; gap:8px; overflow-x:auto;
+    padding:10px 20px; background:linear-gradient(var(--paper), rgba(238,242,238,0.85));
+    border-bottom:1px solid var(--line);
+    scrollbar-width:thin;
+  }
+  .chipnav::-webkit-scrollbar{height:5px;}
+  .chipnav::-webkit-scrollbar-thumb{background:var(--line); border-radius:10px;}
+  .chip{
+    flex:0 0 auto;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    padding:6px 12px;
+    border-radius:100px;
+    border:1px solid var(--line);
+    background:var(--surface);
+    color:var(--muted);
+    text-decoration:none;
+    white-space:nowrap;
+    transition:all .18s ease;
+  }
+  .chip:hover{border-color:var(--teal); color:var(--teal-deep);}
+  .chip.active{background:var(--teal); border-color:var(--teal); color:#fff;}
+
+  /* ---------- Chat column ---------- */
+  main.chat{
+    max-width:640px;
+    margin:0 auto;
+    padding:28px 18px 90px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  .msg-row{display:flex; gap:10px; align-items:flex-end;}
+  .msg-row.bot{justify-content:flex-start;}
+  .msg-row.user{justify-content:flex-end;}
+  .mini-avatar{
+    width:26px;height:26px;border-radius:8px; flex-shrink:0;
+    background:linear-gradient(155deg, var(--teal), var(--teal-deep));
+    display:flex;align-items:center;justify-content:center;
+  }
+  .mini-avatar svg{width:14px;height:14px;}
+
+  .msg.system{
+    align-self:center;
+    text-align:center;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    color:var(--muted);
+    background:var(--paper-alt);
+    border:1px dashed var(--line);
+    padding:8px 16px;
+    border-radius:100px;
+    max-width:90%;
+  }
+
+  .msg.user{
+    background:var(--teal);
+    color:#fff;
+    padding:11px 16px;
+    border-radius:16px 16px 4px 16px;
+    max-width:78%;
+    font-size:0.92rem;
+    box-shadow:0 3px 10px rgba(14,143,115,0.22);
+  }
+
+  /* ---------- Receipt card (signature element) ---------- */
+  section.receipt-wrap{scroll-margin-top:130px;}
+  .receipt{
+    position:relative;
+    background:var(--surface);
+    border-radius:4px;
+    max-width:88%;
+    padding:20px 22px 18px;
+    box-shadow:0 1px 2px rgba(18,32,25,0.04), 0 10px 24px -14px rgba(18,32,25,0.28);
+  }
+  /* punch holes to sell the "torn receipt" idea */
+  .receipt::before, .receipt::after{
+    content:"";
+    position:absolute; top:-7px;
+    width:14px; height:14px; border-radius:50%;
+    background:var(--paper);
+    box-shadow: 0 0 0 1px var(--line) inset;
+  }
+  .receipt::before{left:-7px;}
+  .receipt::after{right:-7px;}
+  .receipt .rhead{
+    display:flex; align-items:baseline; justify-content:space-between;
+    border-bottom:1px dashed var(--line);
+    padding-bottom:10px; margin-bottom:12px;
+  }
+  .receipt .rnum{
+    font-family:"IBM Plex Mono", monospace; font-size:0.7rem; color:var(--teal-deep);
+    background:var(--teal-tint); padding:3px 8px; border-radius:5px; letter-spacing:0.03em;
+  }
+  .receipt h2{
+    font-family:"Fraunces", serif; font-weight:600; font-size:1.18rem; margin:6px 0 2px;
+    letter-spacing:-0.01em;
+  }
+  .receipt p{margin:0 0 10px; font-size:0.92rem; line-height:1.58; color:var(--ink);}
+  .receipt p:last-child{margin-bottom:0;}
+  .receipt ul{margin:0 0 10px; padding-left:0; list-style:none;}
+  .receipt ul li{
+    font-size:0.9rem; line-height:1.5; padding:6px 0 6px 20px; position:relative;
+    border-bottom:1px dotted var(--line);
+    color:var(--ink);
+  }
+  .receipt ul li:last-child{border-bottom:none;}
+  .receipt ul li::before{
+    content:"·"; position:absolute; left:4px; top:5px; color:var(--teal); font-weight:700; font-size:1.1rem;
+  }
+  .stamp{
+    position:absolute; top:16px; right:18px;
+    font-family:"IBM Plex Mono", monospace; font-size:0.62rem; color:var(--teal-deep);
+    border:1px solid var(--teal); border-radius:4px; padding:2px 6px;
+    transform:rotate(4deg); opacity:0.85;
+  }
+  .barcode{
+    margin-top:14px; height:22px;
+    background-image:repeating-linear-gradient(90deg, var(--ink) 0 1px, transparent 1px 3px, var(--ink) 3px 4px, transparent 4px 8px);
+    opacity:0.55;
+  }
+
+  /* highlight variant for LGPD rights */
+  .receipt.highlight{
+    background:var(--gold-tint);
+    border:1px solid #ecd9ab;
+  }
+  .receipt.highlight .rnum{background:#f1e0b3; color:#7a5a15;}
+  .receipt.highlight ul li::before{color:var(--gold);}
+
+  /* placeholder box for contact section */
+  .todo-field{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:"IBM Plex Mono", monospace; font-size:0.8rem;
+    border:1px dashed var(--coral); border-radius:6px;
+    padding:8px 10px; margin-bottom:8px; color:var(--coral);
+    background:rgba(193,84,74,0.05);
+  }
+  .todo-field span.tag{font-size:0.65rem; text-transform:uppercase; letter-spacing:.05em; opacity:.8;}
+
+  footer.end{
+    text-align:center; padding:30px 20px 60px;
+    font-family:"IBM Plex Mono", monospace; font-size:0.72rem; color:var(--muted);
+  }
+
+  @media (max-width:520px){
+    .receipt{max-width:100%;}
+    .msg.user{max-width:86%;}
+    .appbar .updated{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="appbar">
+  <div class="avatar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5.5c0-1.9-2-3-5-3s-5 1.3-5 3 2 2.6 5 3 5 1.1 5 3-2 3-5 3-5-1.1-5-3"/></svg>
+  </div>
+  <div class="app-info">
+    <div class="name">Pagaí</div>
+    <div class="status"><span class="dot"></span>assistente de pagamentos · sempre disponível</div>
+  </div>
+  <div class="updated">Última atualização<strong>28 ago 2026</strong></div>
+</header>
+
+<nav class="chipnav" id="chipnav">
+  <a class="chip" href="#s1">01 · Coleta</a>
+  <a class="chip" href="#s2">02 · Uso</a>
+  <a class="chip" href="#s3">03 · Terceiros</a>
+  <a class="chip" href="#s4">04 · Segurança</a>
+  <a class="chip" href="#s5">05 · Pagamentos</a>
+  <a class="chip" href="#s6">06 · Cookies</a>
+  <a class="chip" href="#s7">07 · Direitos</a>
+  <a class="chip" href="#s8">08 · Retenção</a>
+  <a class="chip" href="#s9">09 · Menores</a>
+  <a class="chip" href="#s10">10 · Alterações</a>
+  <a class="chip" href="#s11">11 · Contato</a>
+</nav>
+
+<main class="chat">
+
+  <div class="msg system">Conversa iniciada · Política de Privacidade do Pagaí</div>
+
+  <div class="msg-row user">
+    <div class="msg user">Oi, Pagaí. Antes de usar o app, quais informações vocês coletam sobre mim?</div>
+  </div>
+
+  <section class="receipt-wrap" id="s1">
+    <div class="msg-row bot">
+      <div class="mini-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></div>
+      <div class="receipt">
+        <span class="stamp">✓ confirmado</span>
+        <div class="rhead"><span class="rnum">SEÇÃO 01</span></div>
+        <h2>Informações que coletamos</h2>
+        <p>Para oferecer as funcionalidades do Pagaí, coletamos apenas o que é necessário para o serviço funcionar:</p>
+        <ul>
+          <li>Nome ou nome de usuário</li>
+          <li>Número de telefone ou identificador da conta usada no chat</li>
+          <li>Informações necessárias para realizar pagamentos e transferências</li>
+          <li>Dados relacionados às transações realizadas</li>
+          <li>Chaves Pix ou outros identificadores de pagamento fornecidos por você</li>
+          <li>Informações compartilhadas voluntariamente durante a conversa</li>
+          <li>Dados técnicos usados para segurança e prevenção de fraudes</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="receipt-wrap" id="s2">
+    <div class="msg-row bot">
+      <div class="mini-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></div>
+      <div class="receipt">
+        <div class="rhead"><span class="rnum">SEÇÃO 02</span></div>
+        <h2>Como usamos suas informações</h2>
+        <ul>
+          <li>Processar e acompanhar pagamentos e transferências</li>
+          <li>Identificar você e suas transações</li>
+          <li>Confirmar as operações realizadas</li>
+          <li>Exibir o histórico de pagamentos</li>
+          <li>Detectar e prevenir fraudes e atividades não autorizadas</li>
+          <li>Melhorar a segurança e o funcionamento do Pagaí</li>
+          <li>Cumprir obrigações legais e regulatórias</li>
+          <li>Prestar suporte a você</li>
+        </ul>
+        <p>Não usamos seus dados para finalidades diferentes das descritas aqui.</p>
+        <div class="barcode"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="msg-row user">
+    <div class="msg user">E vocês compartilham meus dados com alguém?</div>
+  </div>
+
+  <section class="receipt-wrap" id="s3">
+    <div class="msg-row bot">
+      <div class="mini-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></div>
+      <div class="receipt">
+        <div class="rhead"><span class="rnum">SEÇÃO 03</span></div>
+        <h2>Compartilhamento de informações</h2>
+        <p>Para realizar certas operações, o Pagaí pode usar serviços de terceiros — como instituições financeiras, processadores de pagamento e provedores de infraestrutura.</p>
+        <p>Quando necessário, os dados são compartilhados só para viabilizar a transação, manter o serviço, garantir segurança ou cumprir obrigações legais.</p>
+        <p><strong>O Pagaí não vende nem comercializa seus dados pessoais.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="receipt-wrap" id="s4">
+    <div class="msg-row bot">
+      <div class="mini-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></div>
+      <div class="receipt">
+        <div class="rhead"><span class="rnum">SEÇÃO 04</span></div>
+        <h2>Segurança</h2>
+        <p>Adotamos medidas técnicas e administrativas para proteger suas informações contra acesso não autorizado, perda, alteração ou divulgação indevida.</p>
+        <p>Nenhum sistema eletrônico é 100% seguro — por isso, recomendamos que você também faça a sua parte: não compartilhe senhas, códigos de autenticação ou informações confidenciais com terceiros.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="receipt-wrap" id="s5">
+    <div class="msg-row bot">
+      <div class="mini-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg></div>
+      <div class="receipt">
+        <div class="rhead"><span class="rnum">SEÇÃO 05</span></div>
+        <h2>Dados relacionados aos pagamentos</h2>
+        <p>As informações das transações podem ser armazenadas pelo tempo necessário para:</p>
+        <ul>
+          <li>Processar e comprovar as operações</li>
+          <li>Manter registros financeiros</li>
+          <li>Atender exigências legais e regulatórias</li>
+          <li>Resolver disputas ou pedidos de suporte</li>
+          <li>Prevenir fraudes e operações indevidas</li>
+        </ul>
+        <p><strong>Nunca envie ao Pagaí, pelo chat:</strong> senhas, códigos de segurança ou credenciais bancárias.</p>
+        <div class="barcode"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="receipt-wrap" id="s6">
+    <div class="msg-row bot">
+      <div class="mini-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1"/><circle cx="14" cy="8" r="1"/><circle cx="15" cy="14" r="1"/></svg></div>
+      <div class="receipt">
+        <div class="rhead"><span class="rnum">SEÇÃO 06</span></div>
+        <h2>Cookies e tecnologias semelhantes</h2>
+        <p>Dependendo da plataforma usada para disponibilizar o Pagaí, podemos usar cookies ou tecnologias parecidas para garantir o funcionamento do serviço, melhorar a segurança e entender tecnicamente como você usa o app.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="msg-row user">
+    <div class="msg user">Certo. E quais direitos eu tenho sobre os meus dados?</div>
+  </div>
+
+  <section class="receipt-wrap" id="s7">
+    <div class="msg-row bot">
+      <div class="mini-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 3l7 4v5c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V7z"/></svg></div>
+      <div class="receipt highlight">
+        <span class="stamp" style="border-color:var(--gold); color:#7a5a15;">LGPD</span>
+        <div class="rhead"><span class="rnum">SEÇÃO 07</span></div>
+        <h2>Direitos do usuário</h2>
+        <p>Nos termos da <strong>Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018)</strong>, você pode solicitar, quando aplicável:</p>
+        <ul>
+          <li>Confirmação da existência de tratamento dos seus dados</li>
+          <li>Acesso aos dados pessoais tratados</li>
+          <li>Correção de dados incompletos, inexatos ou desatualizados</li>
+          <li>Informações sobre o compartilhamento dos seus dados</li>
+          <li>Eliminação dos dados, quando legalmente possível</li>
+          <li>Revogação do consentimento, quando aplicável</li>
+          <li>Informações sobre as finalidades do tratamento</li>
+        </ul>
+        <p>Algumas solicitações podem ter limitações por obrigações legais, regulatórias ou de segurança.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="receipt-wrap" id="s8">
+    <div class="msg-row bot">
+      <div class="mini-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+      <div class="receipt">
+        <div class="rhead"><span class="rnum">SEÇÃO 08</span></div>
+        <h2>Retenção dos dados</h2>
+        <p>Seus dados pessoais ficam armazenados apenas pelo tempo necessário para cumprir as finalidades desta política, atender obrigações legais e regulatórias, proteger nossos direitos e prevenir fraudes.</p>
+        <p>Depois desse período, os dados são eliminados ou anonimizados, quando a lei permite.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="receipt-wrap" id="s9">
+    <div class="msg-row bot">
+      <div class="mini-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="3"/><path d="M6 20c0-4 3-6 6-6s6 2 6 6"/></svg></div>
+      <div class="receipt">
+        <div class="rhead"><span class="rnum">SEÇÃO 09</span></div>
+        <h2>Privacidade de crianças e adolescentes</h2>
+        <p>O Pagaí não tem como objetivo coletar intencionalmente dados de crianças ou adolescentes em desacordo com a legislação aplicável.</p>
+        <p>Se identificarmos tratamento indevido de dados de menores, tomaremos as medidas cabíveis para sua exclusão, quando legalmente possível.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="receipt-wrap" id="s10">
+    <div class="msg-row bot">
+      <div class="mini-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 4v6h6M20 20v-6h-6"/><path d="M4.5 15a8 8 0 0014.9 2M19.5 9A8 8 0 004.6 7"/></svg></div>
+      <div class="receipt">
+        <div class="rhead"><span class="rnum">SEÇÃO 10</span></div>
+        <h2>Alterações nesta política</h2>
+        <p>Esta política pode ser atualizada periodicamente para refletir mudanças no funcionamento do Pagaí, na legislação ou nas nossas práticas de tratamento de dados.</p>
+        <p>Alterações relevantes geram uma nova versão, com a data de atualização indicada no topo desta página.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="msg-row user">
+    <div class="msg user">Última coisa — como falo com vocês sobre isso?</div>
+  </div>
+
+  <section class="receipt-wrap" id="s11">
+    <div class="msg-row bot">
+      <div class="mini-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
+      <div class="receipt">
+        <div class="rhead"><span class="rnum">SEÇÃO 11</span></div>
+        <h2>Contato</h2>
+        <p>Dúvidas, solicitações ou preocupações sobre privacidade e tratamento de dados podem ser enviadas para:</p>
+        <div class="todo-field"><span>Responsável</span><span class="tag">Keven Mendes</span></div>
+        <div class="todo-field"><span>E-mail de contato</span><span class="tag">dgkeven@outlook.com</span></div>
+        <div class="todo-field"><span>Aplicativo / Serviço</span><span>Pagaí</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="msg system">Ao usar o Pagaí, você declara estar ciente desta política e de como suas informações podem ser tratadas.</div>
+
+</main>
+
+<footer class="end">— fim da conversa · Pagaí —</footer>
+
+<script>
+  // active chip highlight on scroll
+  const chips = Array.from(document.querySelectorAll('.chip'));
+  const sections = Array.from(document.querySelectorAll('section.receipt-wrap'));
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = entry.target.getAttribute('id');
+        const chip = chips.find(c => c.getAttribute('href') === '#' + id);
+        if (!chip) return;
+        if (entry.isIntersecting) {
+          chips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+    sections.forEach(s => obs.observe(s));
+  }
+</script>
+
+</body>
+</html>
